@@ -61,13 +61,17 @@ def calculate_winrates():
 
     return results.sort_values("winrate", ascending=False).to_dict(orient="records")
 
+
+WINRATE_CACHE = calculate_winrates()
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
 @app.route("/api/winrates")
 def winrates():
-    return jsonify(calculate_winrates())
+    return jsonify(WINRATE_CACHE)
 
 
 if __name__ == "__main__":
