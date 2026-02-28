@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AoE2 Civ Win Rates</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #1e1e1e;
+            color: white;
+            text-align: center;
+        }
+
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 60%;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #333;
+        }
+
+        tr:hover {
+            background-color: #2a2a2a;
+        }
+
+        .high { color: #4CAF50; }
+        .low { color: #f44336; }
+    </style>
+</head>
+<body>
+
+<h1>Age of Empires II Civilization Win Rates</h1>
+
+<table id="civTable">
+    <thead>
+        <tr>
+	<th>Civilization</th>
+        <th>Win Rate (%)</th>
+        <th>Games Played</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+fetch("/api/winrates")
+    .then(response => response.json())
+    .then(data => {
+        const table = document.querySelector("#civTable tbody");
+        table.innerHTML = "";
+
+        data.forEach(civ => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${civ.name}</td>
+                <td>${civ.winrate}</td>
+                <td>${civ.games}</td>
+            `;
+
+            table.appendChild(row);
+        });
+    });
+
+</script>
+
+</body>
+</html>
